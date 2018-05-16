@@ -9,7 +9,6 @@ const babel = require('gulp-babel');
 const del = require('del');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
-// const gulpIf = require('gulp-if');
 const size = require('gulp-size');
 const cleanss = require('gulp-cleancss');
 const autoprefixer = require('autoprefixer');
@@ -91,33 +90,6 @@ gulp.task('html', () => {
     .pipe(gulp.dest(dirs.buildPath));
 });
 
-gulp.task('js',  () => {
-  const uglify = require('gulp-uglify');
-  const concat = require('gulp-concat');
-  return gulp.src(dirs.srcPath + '/*.js')
-    .pipe(sourcemaps.init())
-    .pipe(plumber({
-      errorHandler: (err) => {
-        notify.onError({
-          title: 'Javascript concat/uglify error',
-          message: err.message
-        })(err);
-        this.emit('end');
-      }
-    }))
-    .pipe(babel({
-      presets: ['env']
-    }))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('.'))
-    .pipe(size({
-      title: 'Размер',
-      showFiles: true,
-      showTotal: false,
-    }))
-    .pipe(gulp.dest(dirs.buildPath + '/js'));
-});
-
 gulp.task('copy:js', (callback) => {
   if (copiedJs.length) {
     return gulp.src(copiedJs)
@@ -153,7 +125,9 @@ gulp.task('copy:img', () => {
 gulp.task('build', (callback) => {
   gulpSequence(
     'clean',
-    ['style', 'js', 'copy:js', 'copy:img'],
+    ['style', 
+     // 'copy:js',
+     'copy:img'],
     'html',
     callback
   );
@@ -171,25 +145,40 @@ gulp.task('deploy', () => {
 gulp.task('default', ['serve']);
 
 gulp.task('serve', ['build'], () => {
+  let webpack = require('webpack');
+  let webpackDevMiddleware = require('webpack-dev-middleware');
+  let webpackHotMiddleware = require('webpack-hot-middleware');
+  let webpackSettings = require('./webpack.config.js')
+  let bundler = webpack(webpackSettings);
   browserSync.init({
-    server: dirs.buildPath,
+    server: {
+      baseDir: [dirs.buildPath],
+      middleware: [
+        webpackDevMiddleware(bundler, {
+          publicPath: webpackSettings.output.publicPath,
+          clientLogLevel: 'error',
+          hot: true,
+          stats: { colors: true }
+        }),
+        webpackHotMiddleware(bundler)
+      ]
+    },
     startPath: 'index.html',
     open: false,
-    port: 8080,
+    host: 'localhost',
+    port: 8080
   });
   // Слежение за стилями
   gulp.watch(dirs.srcPath + '/*.css', ['watch:style']);
   // Слежение за добавочными JS
-  if (copiedJs.length) {
-    gulp.watch(copiedJs, ['watch:copy:js']);
-  }
+  // if (copiedJs.length) {
+  //   gulp.watch(copiedJs, ['watch:copy:js']);
+  // }
   // Слежение за html
   gulp.watch([
     '*.html',
     dirs.blocksDirName + '/**/*.html'
   ], { cwd: dirs.srcPath }, ['watch:html']);
-  // Слежение за JS
-  gulp.watch(dirs.srcPath + '/*.js', ['watch:js']);
 });
 
 function reload(done) {
@@ -197,9 +186,7 @@ function reload(done) {
   done();
 }
 
-// Браузерсинк с 3-м галпом — такой браузерсинк...
 gulp.task('watch:img', ['copy:img'], reload);
-gulp.task('watch:copied:js', ['copy:js'], reload);
+// gulp.task('watch:copied:js', ['copy:js'], reload);
 gulp.task('watch:html', ['html'], reload);
-gulp.task('watch:js', ['js'], reload);
 gulp.task('watch:style', ['style'], reload);
