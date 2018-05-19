@@ -1,14 +1,9 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { setConfig } from 'react-hot-loader';
 import Editor from './Editor';
 import Output from './Output';
-import marked from 'marked';
 
 // (UI) add default markdown example into an editor window
-
-// setConfig({ logLevel: 'debug' });
 
 class App extends React.Component {
   constructor(props) {
@@ -27,19 +22,11 @@ class App extends React.Component {
         <h1>Online markdown editor</h1>
         <div className="main">
           <Editor onChange={e => this.handleChange(e)} />
-          <Output EditorText={marked(this.state.EditorText)} />
+          <Output EditorText={this.state.EditorText} />
         </div>
       </div>
     );
   }
 }
 
-// ReactDOM.render(<App />, document.getElementById('app'));
-
 export default hot(module)(App);
-
-// if (module.hot) {
-//   module.hot.accept('./ClientApp', () => {
-//     renderApp();
-//   });
-// }
