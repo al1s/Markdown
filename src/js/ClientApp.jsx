@@ -1,12 +1,14 @@
 import { hot } from 'react-hot-loader';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { setConfig } from 'react-hot-loader';
+// import ReactDOM from 'react-dom';
+// import { setConfig } from 'react-hot-loader';
 import Editor from './Editor';
 import Output from './Output';
 import marked from 'marked';
 
-setConfig({ logLevel: 'debug' });
+// (UI) add default markdown example into an editor window
+
+// setConfig({ logLevel: 'debug' });
 
 class App extends React.Component {
   constructor(props) {
