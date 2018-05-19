@@ -1,0 +1,2 @@
+.main{background-color:#555;display:grid;grid-gap:1rem;grid-template-columns:repeat(2,1fr);grid-template-rows:1fr;height:95vh;-webkit-justify-content:space-around;-ms-flex-pack:distribute;justify-content:space-around;margin:2rem}.wrapper{background-color:#eee;padding:1rem}.editor{height:100%;width:100%}.output{background-color:#eee;height:100%;padding:1rem}html{-webkit-box-sizing:border-box;box-sizing:border-box}*{-webkit-box-sizing:inherit;box-sizing:inherit}
+/*# sourceMappingURL=style.css.map */

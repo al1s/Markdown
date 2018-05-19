@@ -1,3 +1,0 @@
-# ProjectName
-
-User Story: I can ...
