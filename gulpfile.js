@@ -126,7 +126,7 @@ gulp.task('build', (callback) => {
   gulpSequence(
     'clean',
     ['style', 
-     // 'copy:js',
+     'js',
      'copy:img'],
     'html',
     callback
@@ -141,6 +141,35 @@ gulp.task('deploy', () => {
     .pipe(ghPages());
 });
 
+// Сборка пакета с production настройками
+gulp.task('js', () => {
+  const webpack = require('webpack');
+  const gulpWebpack = require('webpack-stream');
+  const webpackSettings = require('./webpack.prod.js')
+  return gulp.src(dirs.srcPath + '/js/index.jsx')
+    .pipe(gulpWebpack(webpackSettings, webpack, (err, stats) => {
+    if (err) {
+      console.log(JSON.stringify(err));
+      return err
+    }
+    if (stats.hasErrors() || stats.hasWarnings()) {
+      console.log(stats.toString());
+      return stats.toJson();
+    }
+      // console.log(stats.toString());
+    }))
+    .pipe(plumber({
+      errorHandler: (err) => {
+        notify.onError({
+          title: 'JS compilation error',
+          message: err.message
+        })(err);
+        this.emit('end');
+      }
+    }))
+    .pipe(gulp.dest(dirs.buildPath));
+})
+
 // Задача по умолчанию
 gulp.task('default', ['serve']);
 
@@ -148,7 +177,7 @@ gulp.task('serve', ['build'], () => {
   let webpack = require('webpack');
   let webpackDevMiddleware = require('webpack-dev-middleware');
   let webpackHotMiddleware = require('webpack-hot-middleware');
-  let webpackSettings = require('./webpack.config.js')
+  let webpackSettings = require('./webpack.dev.js')
   let bundler = webpack(webpackSettings);
   browserSync.init({
     server: {
