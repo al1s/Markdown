@@ -1,28 +1,58 @@
-.main {
-  background-color: #555;
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr;
-  height: 95vh;
-  justify-content: space-around;
-  margin: 2rem;
+.app__header {
+  margin: 0.3rem;
+  text-align: center;
 }
 
-.wrapper {
+.app {
+  background-color: #555;
+  display: grid;
+  grid-gap: 0.1rem;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-rows: 1fr;
+  height: 95vh;
+  justify-content: space-around; 
+  margin: 1rem; */
+  /* width: 100vw; */
+}
+
+.editor__wrapper {
   background-color: #eee;
-  padding: 1rem;
+  /* min-width: 45vw; */
 }
 
 .editor {
   height: 100%;
+  overflow: auto;
+  padding: 0.3rem;
+  resize: none;
   width: 100%;
 }
 
-.output {
+.app__output {
   background-color: #eee;
-  height: 100%;
-  padding: 1rem;
+  /* min-width: 45vw; */
+  padding: 0.3rem
+  /* width: 100%; */
+}
+
+@media screen and (min-width: 30rem) {
+
+  .app__container {
+    margin: 0 auto;
+    width: 90%;
+  }
+
+  .app {
+    grid-gap: 0.3rem;
+  }
+
+  .editor__wrapper {
+    padding: 2rem;
+  }
+
+  .app__output {
+    padding: 1rem;
+  }
 }
 
 html {
@@ -31,5 +61,15 @@ html {
 
 * {
   box-sizing: inherit;
+  /* outline: 1px solid red; */
 }
 
+body,
+div {
+  margin: 0;
+  padding: 0;
+}
+
+pre {
+  white-space: pre-wrap;
+}

@@ -1,6 +1,4 @@
-{
-  "example": 
- "An h1 header
+H1 header
 ============
 
 Paragraphs are separated by a blank line.
@@ -21,13 +19,12 @@ content starts at 4-columns in.
 > They can span multiple paragraphs,
 > if you like.
 
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., 'it's all
-in chapters 12--14'). Three dots ... will be converted to an ellipsis.
+Three dots ... will be converted to an ellipsis.
 Unicode is supported. ☺
 
 
 
-An h2 header
+H2 header
 ------------
 
 Here's a numbered list:
@@ -51,21 +48,8 @@ define foobar() {
 }
 ~~~
 
-(which makes copying & pasting easier). You can optionally mark the
-delimited block for Pandoc to syntax highlight it:
 
-~~~python
-import time
-# Quick, count to ten!
-for i in range(10):
-    # (but not *too* quick)
-    time.sleep(0.5)
-    print i
-~~~
-
-
-
-### An h3 header ###
+### H3 header ###
 
 Now a nested list:
 
@@ -98,4 +82,3 @@ doc](local-doc.html), and to a [section heading in the current
 doc](#an-h2-header). Here's a footnote [^1].
 
 [^1]: Footnote text goes here."
-}

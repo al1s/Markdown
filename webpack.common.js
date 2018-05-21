@@ -28,6 +28,10 @@ const config = {
         loader: 'babel-loader',
         exclude: /node_modules/
       },
+      {
+        test: /\.md$/,
+        loader: 'raw-loader'
+      }
     ]
   }
 };

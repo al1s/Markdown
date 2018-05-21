@@ -3,8 +3,13 @@ import React from 'react';
 
 const Editor = props => {
   return (
-    <div className="wrapper">
-      <textarea className="editor" onChange={props.onChange} id="editor" />
+    <div className="editor__wrapper">
+      <textarea
+        className="editor"
+        onChange={props.onChange}
+        id="editor"
+        value={props.value}
+      />
     </div>
   );
 };
